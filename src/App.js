@@ -6,7 +6,7 @@ import Select from './components/Select';
 import './App.css';
 
 
-
+{/*TODO ADD ANIMATIONS*/}
 class App extends Component {
   state = {
     output: [],
@@ -24,7 +24,7 @@ class App extends Component {
   onSelect = (e) => {
     this.setState({value: e.target.value, output: []})
   } 
-  
+
   render() {
     const { output, value } = this.state;
     let outputContent;
