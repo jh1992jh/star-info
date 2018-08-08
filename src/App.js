@@ -2,27 +2,41 @@ import React, { Component, Fragment } from 'react';
 import axios from 'axios'
 import ParticlesBackground from './components/ParticlesBackground';
 import OutputList from './components/OutputList';
-import Select from './components/Select';
+import Menu from './components/Menu';
 import './App.css';
 
-
-{/*TODO ADD ANIMATIONS*/}
 class App extends Component {
   state = {
     output: [],
-    value: 'people'
+    value: 'people',
+    dropdown: false
   }
-
-
+  
   onNewOutput = () => {
     const { value } = this.state;
-    axios.get(`https://swapi.co/api/${value}/${Math.floor(Math.random() * 8)}`)
+
+   const randomNumber = () => {
+    if( value  === 'people' || value === 'planets' || value === 'species' ) {
+      return Math.floor(Math.random() * 10)
+
+    } else if ( value === 'films') {
+      return Math.floor(Math.random() * 7)
+    }
+   }
+
+    axios.get(`https://swapi.co/api/${value}/${randomNumber() + 1}`)
     .then(res => this.setState({ output: [res.data]}))
     .catch(err => console.log(err));
   }
 
-  onSelect = (e) => {
-    this.setState({value: e.target.value, output: []})
+  toggleDropdown = () => {
+    const { dropdown } = this.state;
+
+    this.setState({dropdown: !dropdown})
+  }
+
+  onSelect = (val) => {
+    this.setState({value: val, output: []})
   } 
 
   render() {
@@ -39,15 +53,12 @@ class App extends Component {
     return (
       <Fragment>
       <ParticlesBackground />
-   
       <h1>Star Info</h1>
-
       <div className="App">
         <div className="charContainer">
         {outputContent}
         </div>
-        {/*TODO BUILD A CUSTOM DROPDOWN MENU*/}
-        <Select value={value} onSelect={this.onSelect} />
+       <Menu value={value} onSelect={this.onSelect} />
         <button className="charBtn" onClick={this.onNewOutput}>Get a new output</button>
       </div>
       </Fragment>
