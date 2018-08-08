@@ -8,8 +8,7 @@ import './App.css';
 class App extends Component {
   state = {
     output: [],
-    value: 'people',
-    dropdown: false
+    value: 'people'
   }
   
   onNewOutput = () => {
@@ -27,12 +26,6 @@ class App extends Component {
     axios.get(`https://swapi.co/api/${value}/${randomNumber() + 1}`)
     .then(res => this.setState({ output: [res.data]}))
     .catch(err => console.log(err));
-  }
-
-  toggleDropdown = () => {
-    const { dropdown } = this.state;
-
-    this.setState({dropdown: !dropdown})
   }
 
   onSelect = (val) => {
